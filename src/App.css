@@ -36,3 +36,11 @@ body{
 .copy-button{
   border-radius: 0px 10px 10px 0px;
 }
+.copy-to-clip{
+  color: white;
+  background-color: green;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  text-align: center;
+}

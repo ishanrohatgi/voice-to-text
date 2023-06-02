@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faMicrophoneSlash, faRefresh } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,7 @@ import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const { transcript, listening, browserSupportsSpeechRecognition, resetTranscript} = useSpeechRecognition();
-
+  const [copied, setCopied] = useState(false);
   React.useEffect(() => {
     if (!browserSupportsSpeechRecognition) {
       console.error("Speech recognition is not supported in this browser.");
@@ -37,6 +37,10 @@ function App() {
       navigator.clipboard.writeText(transcript)
         .then(() => {
           console.log('Transcript copied to clipboard:', transcript);
+          setCopied(true);
+          setTimeout(() => {
+            setCopied(false);
+          }, 1000);
         })
         .catch((error) => {
           console.error('Failed to copy transcript to clipboard:', error);
@@ -52,7 +56,7 @@ function App() {
   return (
     <div className="App">
       <div className="top-bar">
-        <h1>Voice to Text</h1>
+        <h1>Audio Textinator</h1>
       </div>
       { transcript && 
         <div className="content">{transcript}</div>
@@ -71,6 +75,8 @@ function App() {
           <FontAwesomeIcon icon={faCopy} size="2x" />
         </button>
       </div>
+
+     {copied && <div className='copy-to-clip'><code>copied to clipboard</code></div>}
     </div>
   );
 }
